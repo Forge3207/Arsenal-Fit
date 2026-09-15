@@ -1,0 +1,644 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Soccer Speed & Power ⚡ | 12yo Training</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --green: #22c55e;
+      --dark-green: #15803d;
+      --orange: #f97316;
+      --yellow: #facc15;
+      --blue: #3b82f6;
+      --bg: #f0fdf4;
+      --card: #ffffff;
+      --text: #14532d;
+      --muted: #4b5563;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Nunito', sans-serif;
+      background: linear-gradient(135deg, #ecfdf5 0%, #f0f9ff 100%);
+      color: var(--text);
+      min-height: 100vh;
+      padding: 16px;
+      line-height: 1.5;
+    }
+
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    header {
+      text-align: center;
+      padding: 24px 16px;
+      background: linear-gradient(135deg, var(--green), var(--dark-green));
+      color: white;
+      border-radius: 24px;
+      margin-bottom: 24px;
+      box-shadow: 0 10px 25px rgba(34, 197, 94, 0.3);
+    }
+
+    header h1 {
+      font-family: 'Fredoka', sans-serif;
+      font-size: 2rem;
+      margin-bottom: 8px;
+    }
+
+    header p {
+      opacity: 0.95;
+      font-size: 1.1rem;
+    }
+
+    .progress-card {
+      background: var(--card);
+      border-radius: 20px;
+      padding: 20px;
+      margin-bottom: 24px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+      text-align: center;
+    }
+
+    .progress-bar {
+      height: 18px;
+      background: #e5e7eb;
+      border-radius: 999px;
+      overflow: hidden;
+      margin: 12px 0;
+    }
+
+    .progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--green), var(--yellow));
+      border-radius: 999px;
+      transition: width 0.4s ease;
+      width: 0%;
+    }
+
+    .progress-text {
+      font-weight: 700;
+      font-size: 1.2rem;
+      color: var(--dark-green);
+    }
+
+    .day-tabs {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .day-tab {
+      flex: 1;
+      min-width: 100px;
+      padding: 14px 10px;
+      border: none;
+      border-radius: 16px;
+      font-family: 'Fredoka', sans-serif;
+      font-size: 1.1rem;
+      font-weight: 600;
+      cursor: pointer;
+      background: white;
+      color: var(--muted);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+      transition: all 0.2s;
+    }
+
+    .day-tab.active {
+      background: var(--orange);
+      color: white;
+      transform: scale(1.05);
+      box-shadow: 0 6px 15px rgba(249, 115, 22, 0.4);
+    }
+
+    .day-tab.completed {
+      background: var(--green);
+      color: white;
+    }
+
+    .day-content {
+      display: none;
+      animation: fadeIn 0.3s ease;
+    }
+
+    .day-content.active {
+      display: block;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .section {
+      background: var(--card);
+      border-radius: 20px;
+      padding: 20px;
+      margin-bottom: 16px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+    }
+
+    .section-title {
+      font-family: 'Fredoka', sans-serif;
+      font-size: 1.35rem;
+      margin-bottom: 14px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .exercise {
+      display: flex;
+      gap: 14px;
+      padding: 14px 0;
+      border-bottom: 1px solid #f3f4f6;
+      align-items: flex-start;
+    }
+
+    .exercise:last-child {
+      border-bottom: none;
+    }
+
+    .exercise-icon {
+      font-size: 2.2rem;
+      min-width: 50px;
+      text-align: center;
+      line-height: 1;
+    }
+
+    .exercise-info {
+      flex: 1;
+    }
+
+    .exercise-name {
+      font-weight: 700;
+      font-size: 1.15rem;
+      color: var(--text);
+      margin-bottom: 4px;
+    }
+
+    .exercise-details {
+      font-size: 0.95rem;
+      color: var(--muted);
+      margin-bottom: 6px;
+    }
+
+    .exercise-sets {
+      display: inline-block;
+      background: #dcfce7;
+      color: var(--dark-green);
+      font-weight: 700;
+      font-size: 0.85rem;
+      padding: 3px 10px;
+      border-radius: 999px;
+    }
+
+    .checkbox {
+      width: 28px;
+      height: 28px;
+      min-width: 28px;
+      border: 3px solid var(--green);
+      border-radius: 8px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+      margin-top: 4px;
+    }
+
+    .checkbox.checked {
+      background: var(--green);
+    }
+
+    .checkbox.checked::after {
+      content: "✓";
+      color: white;
+      font-weight: 900;
+      font-size: 1.1rem;
+    }
+
+    .encouragement {
+      text-align: center;
+      padding: 16px;
+      background: linear-gradient(135deg, #fef3c7, #fde68a);
+      border-radius: 16px;
+      margin-top: 16px;
+      font-weight: 700;
+      color: #92400e;
+      font-size: 1.1rem;
+    }
+
+    .reset-btn {
+      display: block;
+      width: 100%;
+      max-width: 280px;
+      margin: 24px auto 0;
+      padding: 14px;
+      background: #fee2e2;
+      color: #b91c1c;
+      border: none;
+      border-radius: 14px;
+      font-family: 'Fredoka', sans-serif;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .reset-btn:hover {
+      background: #fecaca;
+    }
+
+    .tip {
+      background: #eff6ff;
+      border-left: 5px solid var(--blue);
+      padding: 12px 16px;
+      border-radius: 0 12px 12px 0;
+      margin: 16px 0;
+      font-size: 0.95rem;
+    }
+
+    footer {
+      text-align: center;
+      margin-top: 32px;
+      padding: 16px;
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+
+    @media (max-width: 500px) {
+      header h1 { font-size: 1.6rem; }
+      .day-tab { font-size: 1rem; padding: 12px 6px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>⚽ Soccer Speed & Power</h1>
+      <p>3 days a week • Get faster & more explosive!</p>
+    </header>
+
+    <div class="progress-card">
+      <div class="progress-text" id="progressText">This week: 0% complete</div>
+      <div class="progress-bar">
+        <div class="progress-fill" id="progressFill"></div>
+      </div>
+      <div id="encouragementMsg" class="encouragement" style="display:none;"></div>
+    </div>
+
+    <div class="day-tabs">
+      <button class="day-tab active" data-day="1">Day 1<br>🚀 Acceleration</button>
+      <button class="day-tab" data-day="2">Day 2<br>🔄 Agility</button>
+      <button class="day-tab" data-day="3">Day 3<br>💨 Max Speed</button>
+    </div>
+
+    <!-- DAY 1 -->
+    <div class="day-content active" id="day1">
+      <div class="section">
+        <div class="section-title">🔥 Warm-up (8–10 min)</div>
+        <div class="exercise">
+          <div class="exercise-icon">🏃</div>
+          <div class="exercise-info">
+            <div class="exercise-name">Light jog + dynamic moves</div>
+            <div class="exercise-details">Jog easy, high knees, butt kicks, leg swings, arm circles</div>
+            <span class="exercise-sets">2–3 min continuous</span>
+          </div>
+          <div class="checkbox" data-id="d1-w1"></div>
+        </div>
+        <div class="exercise">
+          <div class="exercise-icon">🦵</div>
+          <div class="exercise-info">
+            <div class="exercise-name">A-Skips & Activation</div>
+            <div class="exercise-details">Skip with high knees + glute bridges or bird-dogs</div>
+            <span class="exercise-sets">2 × 15 m + 8 reps</span>
+          </div>
+          <div class="checkbox" data-id="d1-w2"></div>
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="section-title">⚡ Main Work – Acceleration + Horizontal Power</div>
+        <div class="tip">💡 Focus on powerful first 3 steps and soft landings!</div>
+
+        <div class="exercise">
+          <div class="exercise-icon">🧱</div>
+          <div class="exercise-info">
+            <div class="exercise-name">Wall Drill</div>
+            <div class="exercise-details">Lean into wall, drive knee up fast with stiff ankle</div>
+            <span class="exercise-sets">2 × 5 each side</span>
+          </div>
+          <div class="checkbox" data-id="d1-e1"></div>
+        </div>
+
+        <div class="exercise">
+          <div class="exercise-icon">🦘</div>
+          <div class="exercise-info">
+            <div class="exercise-name">Broad Jumps</div>
+            <div class="exercise-details">Jump forward as far as you can. Stick the landing soft & quiet!</div>
+            <span class="exercise-sets">3 × 4–6 jumps</span>
+          </div>
+          <div class="checkbox" data-id="d1-e2"></div>
+        </div>
+
+        <div class="exercise">
+          <div class="exercise-icon">🏃‍♂️</div>
+          <div class="exercise-info">
+            <div class="exercise-name">10–15 m Accelerations</div>
+            <div class="exercise-details">All-out sprints from different starts (standing, falling, reaction)</div>
+            <span class="exercise-sets">6–10 reps • Full rest</span>
+          </div>
+          <div class="checkbox" data-id="d1-e3"></div>
+        </div>
+
+        <div class="exercise">
+          <div class="exercise-icon">🚀</div>
+          <div class="exercise-info">
+            <div class="exercise-name">Broad Jump + Sprint</div>
+            <div class="exercise-details">Jump far, then immediately sprint 10 m</div>
+            <span class="exercise-sets">3–4 reps</span>
+          </div>
+          <div class="checkbox" data-id="d1-e4"></div>
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="section-title">😌 Cool-down</div>
+        <div class="exercise">
+          <div class="exercise-icon">🧘</div>
+          <div class="exercise-info">
+            <div class="exercise-name">Easy walk + stretches</div>
+            <div class="exercise-details">Hamstrings, quads, calves, hip flexors. Breathe deep.</div>
+            <span class="exercise-sets">5–8 minutes</span>
+          </div>
+          <div class="checkbox" data-id="d1-c1"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- DAY 2 -->
+    <div class="day-content" id="day2">
+      <div class="section">
+        <div class="section-title">🔥 Warm-up (8–10 min)</div>
+        <div class="exercise">
+          <div class="exercise-icon">🏃</div>
+          <div class="exercise-info">
+            <div class="exercise-name">Dynamic Warm-up</div>
+            <div class="exercise-details">Jog, high knees, lateral shuffles, carioca, bodyweight squats</div>
+            <span class="exercise-sets">8–10 min total</span>
+          </div>
+          <div class="checkbox" data-id="d2-w1"></div>
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="section-title">⚡ Main Work – Agility + Vertical Power</div>
+        <div class="tip">💡 Soft landings! Knees over toes, quiet feet.</div>
+
+        <div class="exercise">
+          <div class="exercise-icon">⬆️</div>
+          <div class="exercise-info">
+            <div class="exercise-name">Squat Jumps / CMJ</div>
+            <div class="exercise-details">Dip slightly then explode up. Land soft and balanced.</div>
+            <span class="exercise-sets">3 × 5–8</span>
+          </div>
+          <div class="checkbox" data-id="d2-e1"></div>
+        </div>
+
+        <div class="exercise">
+          <div class="exercise-icon">↔️</div>
+          <div class="exercise-info">
+            <div class="exercise-name">Lateral Hops / Line Hops</div>
+            <div class="exercise-details">Side-to-side over a line or low marker. Stay light on feet.</div>
+            <span class="exercise-sets">2–3 × 6–8 each way</span>
+          </div>
+          <div class="checkbox" data-id="d2-e2"></div>
+        </div>
+
+        <div class="exercise">
+          <div class="exercise-icon">🔀</div>
+          <div class="exercise-info">
+            <div class="exercise-name">Agility Drills (T-Drill or 5-10-5)</div>
+            <div class="exercise-details">Quick changes of direction. Stay low and explosive.</div>
+            <span class="exercise-sets">4–8 quality reps</span>
+          </div>
+          <div class="checkbox" data-id="d2-e3"></div>
+        </div>
+
+        <div class="exercise">
+          <div class="exercise-icon">⚡</div>
+          <div class="exercise-info">
+            <div class="exercise-name">Short Shuttles or Reaction Sprints</div>
+            <div class="exercise-details">5–15 m segments. Add a coach call or visual cue when ready.</div>
+            <span class="exercise-sets">4–6 reps</span>
+          </div>
+          <div class="checkbox" data-id="d2-e4"></div>
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="section-title">😌 Cool-down</div>
+        <div class="exercise">
+          <div class="exercise-icon">🧘</div>
+          <div class="exercise-info">
+            <div class="exercise-name">Walk + Stretch</div>
+            <div class="exercise-details">Focus on hips, quads, and calves</div>
+            <span class="exercise-sets">5–8 min</span>
+          </div>
+          <div class="checkbox" data-id="d2-c1"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- DAY 3 -->
+    <div class="day-content" id="day3">
+      <div class="section">
+        <div class="section-title">🔥 Warm-up (8–10 min)</div>
+        <div class="exercise">
+          <div class="exercise-icon">🏃</div>
+          <div class="exercise-info">
+            <div class="exercise-name">Build-up Warm-up</div>
+            <div class="exercise-details">Easy jog → progressive strides → dynamic stretches</div>
+            <span class="exercise-sets">8–10 min</span>
+          </div>
+          <div class="checkbox" data-id="d3-w1"></div>
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="section-title">⚡ Main Work – Max Velocity + Mixed Power</div>
+        <div class="tip">💡 Stay relaxed at top speed. Quality over quantity!</div>
+
+        <div class="exercise">
+          <div class="exercise-icon">💨</div>
+          <div class="exercise-info">
+            <div class="exercise-name">Flying or Build-up Sprints</div>
+            <div class="exercise-details">Build into 20–30 m at near max speed. Focus on posture & arm drive.</div>
+            <span class="exercise-sets">4–8 × 20–30 m</span>
+          </div>
+          <div class="checkbox" data-id="d3-e1"></div>
+        </div>
+
+        <div class="exercise">
+          <div class="exercise-icon">🏔️</div>
+          <div class="exercise-info">
+            <div class="exercise-name">Hill or Incline Accelerations (optional)</div>
+            <div class="exercise-details">If you have a small hill: 10–15 m powerful drives</div>
+            <span class="exercise-sets">4–6 reps</span>
+          </div>
+          <div class="checkbox" data-id="d3-e2"></div>
+        </div>
+
+        <div class="exercise">
+          <div class="exercise-icon">💪</div>
+          <div class="exercise-info">
+            <div class="exercise-name">Bodyweight Strength Support</div>
+            <div class="exercise-details">Goblet/split squats, Nordic lowers (assisted), single-leg balance</div>
+            <span class="exercise-sets">2–3 sets controlled</span>
+          </div>
+          <div class="checkbox" data-id="d3-e3"></div>
+        </div>
+
+        <div class="exercise">
+          <div class="exercise-icon">🦘</div>
+          <div class="exercise-info">
+            <div class="exercise-name">Light Mixed Plyos</div>
+            <div class="exercise-details">Review previous jumps or easy pogo hops (keep contacts low)</div>
+            <span class="exercise-sets">2–3 exercises</span>
+          </div>
+          <div class="checkbox" data-id="d3-e4"></div>
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="section-title">😌 Cool-down</div>
+        <div class="exercise">
+          <div class="exercise-icon">🧘</div>
+          <div class="exercise-info">
+            <div class="exercise-name">Full Recovery Stretch</div>
+            <div class="exercise-details">Easy walk + long stretches. Celebrate the work!</div>
+            <span class="exercise-sets">5–8 min</span>
+          </div>
+          <div class="checkbox" data-id="d3-c1"></div>
+        </div>
+      </div>
+    </div>
+
+    <button class="reset-btn" id="resetBtn">🔄 Reset This Week’s Progress</button>
+
+    <footer>
+      Built for young soccer stars ⭐<br>
+      Train hard • Recover well • Have fun!
+    </footer>
+  </div>
+
+  <script>
+    // Progress tracking with localStorage
+    const STORAGE_KEY = 'soccerSpeedPowerProgress';
+
+    function loadProgress() {
+      const saved = localStorage.getItem(STORAGE_KEY);
+      return saved ? JSON.parse(saved) : {};
+    }
+
+    function saveProgress(data) {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+    }
+
+    function updateUI() {
+      const progress = loadProgress();
+      const checkboxes = document.querySelectorAll('.checkbox');
+      let total = 0;
+      let done = 0;
+
+      checkboxes.forEach(cb => {
+        const id = cb.dataset.id;
+        total++;
+        if (progress[id]) {
+          cb.classList.add('checked');
+          done++;
+        } else {
+          cb.classList.remove('checked');
+        }
+      });
+
+      // Update day tabs
+      document.querySelectorAll('.day-tab').forEach(tab => {
+        const day = tab.dataset.day;
+        const dayChecks = document.querySelectorAll(`#day${day} .checkbox`);
+        let dayDone = 0;
+        dayChecks.forEach(c => {
+          if (progress[c.dataset.id]) dayDone++;
+        });
+        if (dayDone === dayChecks.length && dayChecks.length > 0) {
+          tab.classList.add('completed');
+        } else {
+          tab.classList.remove('completed');
+        }
+      });
+
+      // Progress bar
+      const percent = total > 0 ? Math.round((done / total) * 100) : 0;
+      document.getElementById('progressFill').style.width = percent + '%';
+      document.getElementById('progressText').textContent = `This week: ${percent}% complete (${done}/${total})`;
+
+      // Encouragement
+      const msg = document.getElementById('encouragementMsg');
+      if (percent === 100) {
+        msg.style.display = 'block';
+        msg.textContent = '🏆 LEGEND STATUS! You crushed the whole week!';
+      } else if (percent >= 70) {
+        msg.style.display = 'block';
+        msg.textContent = '🔥 You’re on fire! Keep going!';
+      } else if (percent >= 40) {
+        msg.style.display = 'block';
+        msg.textContent = '💪 Strong progress — you’ve got this!';
+      } else if (percent > 0) {
+        msg.style.display = 'block';
+        msg.textContent = '🚀 Great start! Every check counts!';
+      } else {
+        msg.style.display = 'none';
+      }
+    }
+
+    // Checkbox clicks
+    document.querySelectorAll('.checkbox').forEach(cb => {
+      cb.addEventListener('click', () => {
+        const progress = loadProgress();
+        const id = cb.dataset.id;
+        progress[id] = !progress[id];
+        saveProgress(progress);
+        updateUI();
+      });
+    });
+
+    // Day tabs
+    document.querySelectorAll('.day-tab').forEach(tab => {
+      tab.addEventListener('click', () => {
+        document.querySelectorAll('.day-tab').forEach(t => t.classList.remove('active'));
+        document.querySelectorAll('.day-content').forEach(c => c.classList.remove('active'));
+        tab.classList.add('active');
+        document.getElementById('day' + tab.dataset.day).classList.add('active');
+      });
+    });
+
+    // Reset
+    document.getElementById('resetBtn').addEventListener('click', () => {
+      if (confirm('Reset all checkmarks for this week?')) {
+        localStorage.removeItem(STORAGE_KEY);
+        updateUI();
+      }
+    });
+
+    // Init
+    updateUI();
+  </script>
+</body>
+</html>
